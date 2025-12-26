@@ -81,6 +81,19 @@ export default function GamePage() {
                 origin: { y: 0.6 },
                 colors: ['#ffffff', '#a8a8a8', '#636363']
             });
+
+            // Sonucu Kaydet
+            const result = {
+                date: new Date().toISOString(),
+                difficulty: 'random', // İlerde API'den gerçek zorluk gelecek
+                completed: true
+            };
+
+            const savedHistory = localStorage.getItem('sudoku-history');
+            const history = savedHistory ? JSON.parse(savedHistory) : [];
+            history.push(result);
+            localStorage.setItem('sudoku-history', JSON.stringify(history));
+
         } else {
             setMessage("Henüz bitmedi veya hatalar var.");
         }
@@ -112,10 +125,10 @@ export default function GamePage() {
                 <Group justify="space-between" w="100%" px="xs" align="center">
                     <Stack gap={0}>
                         <Title order={3} c="white" style={{ textTransform: 'uppercase', letterSpacing: '4px', fontWeight: 200, fontSize: '1.5rem' }}>
-                            SUDOKU
+                            galileoff.
                         </Title>
                         <Text c="dimmed" size="xs" style={{ letterSpacing: '2px', textTransform: 'uppercase' }}>
-                            Mini 6x6
+                            sudoku 6x6
                         </Text>
                     </Stack>
 

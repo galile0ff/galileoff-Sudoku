@@ -1,4 +1,4 @@
-import { Container, Title, Text, Button, Paper, Center } from '@mantine/core';
+import { Container, Title, Text, Button, Paper, Center, Stack } from '@mantine/core';
 
 export default function Home() {
   return (
@@ -32,28 +32,47 @@ export default function Home() {
             Minimalist Zeka Oyunu
           </Text>
 
-          <Button
-            fullWidth
-            size="xl"
-            radius="xl"
-            variant="filled"
-            color="white"
-            component="a"
-            href="/game"
-            style={{
-              backgroundColor: 'white',
-              color: 'black',
-              height: 'clamp(50px, 12vw, 60px)',
-              fontSize: '1rem',
-              fontWeight: 600,
-              letterSpacing: '1px',
-            }}
-            styles={{
-              root: { ':hover': { transform: 'scale(1.02)' } }
-            }}
-          >
-            OYUNA BAŞLA
-          </Button>
+          <Stack gap="md">
+            <Button
+              fullWidth
+              size="xl"
+              radius="xl"
+              variant="filled"
+              color="white"
+              component="a"
+              href="/game"
+              style={{
+                backgroundColor: 'white',
+                color: 'black',
+                height: 'clamp(50px, 12vw, 60px)',
+                fontSize: '1rem',
+                fontWeight: 600,
+                letterSpacing: '1px',
+              }}
+              styles={{
+                root: { ':hover': { transform: 'scale(1.02)' } }
+              }}
+            >
+              OYUNA BAŞLA
+            </Button>
+
+            <Button
+              fullWidth
+              size="md"
+              radius="xl"
+              variant="subtle"
+              color="gray"
+              component="a"
+              href="/analysis"
+              style={{
+                color: 'rgba(255,255,255,0.6)',
+                fontWeight: 400,
+                letterSpacing: '1px',
+              }}
+            >
+              PROFİL & ANALİZ
+            </Button>
+          </Stack>
         </div>
       </Paper>
     </Center>

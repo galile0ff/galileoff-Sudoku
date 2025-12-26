@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import "@mantine/core/styles.css";
+import '@mantine/charts/styles.css';
 import "./globals.css";
 
 export const metadata: Metadata = {
