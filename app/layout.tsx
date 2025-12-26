@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
+import Dock from '@/components/Navigation/Dock';
 import "@mantine/core/styles.css";
 import '@mantine/charts/styles.css';
 import "./globals.css";
@@ -34,7 +35,10 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider>{children}</MantineProvider>
+        <MantineProvider>
+          {children}
+          <Dock />
+        </MantineProvider>
       </body>
     </html>
   );

@@ -6,9 +6,12 @@ import { IconTrophy, IconCalendarStats, IconArrowLeft, IconFlame, IconChartBar, 
 import { motion } from 'framer-motion';
 import { AreaChart } from '@mantine/charts';
 
+import Loader from '@/components/UI/Loader';
+
 export default function AnalysisPage() {
     const [stats, setStats] = useState({ totalSolved: 0, streak: 0, winRate: 100, xp: 0, level: 1 });
     const [chartData, setChartData] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const savedHistory = localStorage.getItem('sudoku-history');
@@ -45,7 +48,18 @@ export default function AnalysisPage() {
             }));
             setChartData(mockData);
         }
+
+        // Simüle edilmiş bir gecikme ekleyelim ki loader görünsün (yoksa çok hızlı geçiyor)
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 800);
+
+        return () => clearTimeout(timer);
     }, []);
+
+    if (loading) {
+        return <Loader />;
+    }
 
     return (
         <Container size="sm" py="xl" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
@@ -53,24 +67,7 @@ export default function AnalysisPage() {
             <div style={{ position: 'absolute', top: '-20%', left: '20%', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(120, 119, 198, 0.15) 0%, transparent 60%)', borderRadius: '50%', filter: 'blur(80px)', pointerEvents: 'none' }} />
             <div style={{ position: 'absolute', bottom: '-10%', right: '-10%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(56, 189, 248, 0.1) 0%, transparent 60%)', borderRadius: '50%', filter: 'blur(60px)', pointerEvents: 'none' }} />
 
-            <Stack gap="lg" style={{ position: 'relative', zIndex: 1 }}>
-
-                {/* Top Navigation */}
-                <Group justify="space-between" align="center">
-                    <Button
-                        component="a"
-                        href="/"
-                        variant="subtle"
-                        color="gray"
-                        size="sm"
-                        leftSection={<IconArrowLeft size={18} />}
-                        style={{ color: 'rgba(255,255,255,0.7)', transition: 'color 0.2s' }}
-                        styles={{ root: { ':hover': { color: 'white' } } }}
-                    >
-                        Ana Menü
-                    </Button>
-                    <Text size="xs" fw={700} c="dimmed" style={{ letterSpacing: '2px' }}>PROFİL & İSTATİSTİK</Text>
-                </Group>
+            <Stack gap="lg" style={{ position: 'relative', zIndex: 1, paddingTop: '20px' }}>
 
                 {/* Profile / Level Card (Bento Large) */}
                 <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>

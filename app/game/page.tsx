@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { Container, Stack, Title, Button, Group, LoadingOverlay, Text } from '@mantine/core';
+import { Container, Title, Text, Button, Group, Stack, Center, ThemeIcon, Transition, Modal, ActionIcon, Paper } from '@mantine/core';
 import { Board } from '@/components/Game/Board';
 import { Controls } from '@/components/Game/Controls';
 import { IconRefresh, IconCheck } from '@tabler/icons-react';
 import confetti from 'canvas-confetti';
 import { motion, AnimatePresence } from 'framer-motion';
+import Loader from '@/components/UI/Loader';
 
 export default function GamePage() {
     const [grid, setGrid] = useState<(number | null)[][]>([]);
@@ -37,6 +38,10 @@ export default function GamePage() {
     useEffect(() => {
         fetchPuzzle();
     }, []);
+
+    if (loading) {
+        return <Loader />;
+    }
 
     const handleCellClick = (row: number, col: number) => {
         if (initialGrid[row][col] === null) {
@@ -111,13 +116,6 @@ export default function GamePage() {
                 animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.4, 0.2] }}
                 transition={{ duration: 10, repeat: Infinity, delay: 1 }}
                 style={{ position: 'absolute', bottom: '10%', right: '-5%', width: '250px', height: '250px', background: 'radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 60%)', borderRadius: '50%', filter: 'blur(40px)', pointerEvents: 'none' }}
-            />
-
-            <LoadingOverlay
-                visible={loading}
-                zIndex={1000}
-                overlayProps={{ radius: "sm", blur: 3, backgroundOpacity: 0.1 }}
-                loaderProps={{ color: 'white', type: 'bars' }}
             />
 
             <Stack align="center" gap="lg" style={{ position: 'relative', zIndex: 1 }}>
@@ -236,3 +234,4 @@ export default function GamePage() {
         </Container>
     );
 }
+

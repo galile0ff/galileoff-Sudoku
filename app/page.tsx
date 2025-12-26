@@ -1,80 +1,173 @@
-import { Container, Title, Text, Button, Paper, Center, Stack } from '@mantine/core';
+"use client";
+
+import { Title, Text, Button, Paper, Center, Stack, Group, ThemeIcon } from '@mantine/core';
+import { IconPlayerPlay, IconChartBar, IconBrain, IconTrophy } from '@tabler/icons-react';
+import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import Loader from '@/components/UI/Loader';
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <Center h="100vh" style={{ position: 'relative', overflow: 'hidden' }}>
-      {/* Decorative Lights */}
-      <div style={{ position: 'absolute', top: '15%', left: '5%', width: 'clamp(200px, 50vw, 300px)', height: 'clamp(200px, 50vw, 300px)', background: 'radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(40px)' }} />
-      <div style={{ position: 'absolute', bottom: '10%', right: '5%', width: 'clamp(250px, 60vw, 400px)', height: 'clamp(250px, 60vw, 400px)', background: 'radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(60px)' }} />
 
-      <Paper
-        p={0}
-        radius="xl"
-        w="90%"
-        maw={380}
-        style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.02)',
-          backdropFilter: 'blur(24px)',
-          border: '1px solid rgba(255,255,255,0.08)',
-          overflow: 'hidden',
-          boxShadow: '0 20px 40px -10px rgba(0,0,0,0.5)'
-        }}
+      {/* Decorative Lights (Background) - Consistent with Game Page */}
+      <motion.div
+        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+        transition={{ duration: 8, repeat: Infinity }}
+        style={{ position: 'absolute', top: '-10%', left: '-10%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 60%)', borderRadius: '50%', filter: 'blur(60px)', pointerEvents: 'none' }}
+      />
+      <motion.div
+        animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.4, 0.2] }}
+        transition={{ duration: 10, repeat: Infinity, delay: 1 }}
+        style={{ position: 'absolute', bottom: '10%', right: '-5%', width: '350px', height: '350px', background: 'radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 60%)', borderRadius: '50%', filter: 'blur(50px)', pointerEvents: 'none' }}
+      />
+
+      {/* Main Content Card */}
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        style={{ zIndex: 1, width: '100%', maxWidth: '420px', padding: '0 1rem' }}
       >
-        <div style={{ padding: 'clamp(2rem, 5vw, 3rem) clamp(1.5rem, 5vw, 2rem)', textAlign: 'center' }}>
-          <Title order={1} mb="xs" c="white" style={{ fontSize: 'clamp(2.5rem, 10vw, 3rem)', fontWeight: 100, letterSpacing: '-2px', lineHeight: 1 }}>
-            6x6
-          </Title>
-          <Title order={2} mb="xl" c="white" style={{ fontSize: 'clamp(0.8rem, 3vw, 1rem)', fontWeight: 400, letterSpacing: '6px', textTransform: 'uppercase', opacity: 0.8 }}>
-            Sudoku
-          </Title>
+        <Paper
+          radius={32}
+          p="xl"
+          style={{
+            backgroundColor: 'rgba(255, 255, 255, 0.03)', // Daha şeffaf, gerçek glassmorphism
+            backdropFilter: 'blur(30px)', // Blur artırıldı
+            border: '1px solid rgba(255,255,255,0.08)',
+            boxShadow: '0 24px 48px -12px rgba(0, 0, 0, 0.5)',
+            position: 'relative',
+            overflow: 'hidden'
+          }}
+        >
+          {/* Inner decorative subtle grid */}
+          <div style={{ position: 'absolute', inset: 0, opacity: 0.03, backgroundImage: 'radial-gradient(white 1px, transparent 1px)', backgroundSize: '20px 20px', pointerEvents: 'none' }} />
 
-          <Text mb={40} c="dimmed" size="sm" style={{ letterSpacing: '0.5px' }}>
-            Minimalist Zeka Oyunu
-          </Text>
+          <Stack align="center" gap="xl" style={{ position: 'relative' }}>
 
-          <Stack gap="md">
-            <Button
-              fullWidth
-              size="xl"
-              radius="xl"
-              variant="filled"
-              color="white"
-              component="a"
-              href="/game"
-              style={{
-                backgroundColor: 'white',
-                color: 'black',
-                height: 'clamp(50px, 12vw, 60px)',
-                fontSize: '1rem',
-                fontWeight: 600,
-                letterSpacing: '1px',
-              }}
-              styles={{
-                root: { ':hover': { transform: 'scale(1.02)' } }
-              }}
-            >
-              OYUNA BAŞLA
-            </Button>
+            {/* Logo / Brand Area */}
+            <Stack align="center" gap={6}>
+              <Group gap={8}>
+                <ThemeIcon size={28} radius="md" color="white" variant="white">
+                  <IconBrain size={18} color="black" />
+                </ThemeIcon>
+                <Text size="sm" fw={600} style={{ letterSpacing: '3px', textTransform: 'uppercase' }} c="dimmed">
+                  GALILEOFF
+                </Text>
+              </Group>
 
-            <Button
-              fullWidth
-              size="md"
-              radius="xl"
-              variant="subtle"
-              color="gray"
-              component="a"
-              href="/analysis"
-              style={{
-                color: 'rgba(255,255,255,0.6)',
-                fontWeight: 400,
-                letterSpacing: '1px',
-              }}
-            >
-              PROFİL & ANALİZ
-            </Button>
+              <div style={{ position: 'relative', marginTop: '1rem' }}>
+                <Text
+                  fw={900}
+                  c="white"
+                  style={{
+                    fontSize: '4.5rem',
+                    lineHeight: 0.9,
+                    letterSpacing: '-4px',
+                    background: 'linear-gradient(to bottom right, #fff, #999)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    textAlign: 'center'
+                  }}
+                >
+                  6<span style={{ color: '#444', WebkitTextFillColor: '#444' }}>x</span>6
+                </Text>
+                <Text
+                  size="xl"
+                  fw={300}
+                  c="dimmed"
+                  ta="center"
+                  style={{ letterSpacing: '8px', marginLeft: '8px' }}
+                >
+                  SUDOKU
+                </Text>
+              </div>
+            </Stack>
+
+            <Stack w="100%" gap="md" mt="sm">
+              <Button
+                component="a"
+                href="/game"
+                fullWidth
+                size="xl"
+                radius="xl"
+                color="white"
+                rightSection={<IconPlayerPlay size={20} />}
+                styles={{
+                  root: {
+                    backgroundColor: 'white',
+                    color: 'black',
+                    height: '64px',
+                    transition: 'transform 0.2s',
+                    ':hover': { transform: 'scale(1.02)' }
+                  },
+                  label: { fontSize: '1.1rem', fontWeight: 700, letterSpacing: '1px' }
+                }}
+              >
+                OYUNA BAŞLA
+              </Button>
+
+              <Group grow>
+                <Button
+                  component="a"
+                  href="/analysis"
+                  size="lg"
+                  radius="xl"
+                  variant="default"
+                  leftSection={<IconChartBar size={20} />}
+                  styles={{
+                    root: {
+                      backgroundColor: 'rgba(255,255,255,0.05)',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      color: 'white',
+                      height: '56px',
+                      ':hover': { backgroundColor: 'rgba(255,255,255,0.1)' }
+                    },
+                    label: { fontWeight: 500 }
+                  }}
+                >
+                  ANALİZ
+                </Button>
+                {/* Gelecekte eklenebilecek ayarlar butonu vb. için yer tutucu veya 2. bir aksiyon */}
+                <Button
+                  size="lg"
+                  radius="xl"
+                  variant="default"
+                  disabled
+                  styles={{
+                    root: {
+                      backgroundColor: 'transparent',
+                      border: '1px dashed rgba(255,255,255,0.1)',
+                      color: 'dimmed',
+                      height: '56px',
+                    }
+                  }}
+                >
+                  YAKINDA
+                </Button>
+              </Group>
+            </Stack>
+
+            <Text size="xs" c="dimmed" mt="xs" style={{ opacity: 0.5 }}>
+              v1.0.0 • galile0ff
+            </Text>
           </Stack>
-        </div>
-      </Paper>
+        </Paper>
+      </motion.div>
     </Center>
   );
 }
